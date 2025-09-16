@@ -9,11 +9,11 @@
     <h1>Todo List</h1>
     <a href="<?= site_url('todo/new') ?>">+ Add Task</a>
     <ul>
-        <?php foreach ($todos as $t): ?>
+        <?php foreach ($todos as $todo): ?>
             <li>
-                <b><?= esc($t['task']) ?></b> - <?= esc($t['description']) ?>
-                <a href="<?= site_url('todo/' . $t['id'] . '/edit') ?>">Edit</a>
-                <form action="<?= site_url('todo/' . $t['id']) ?>" method="post" style="display:inline">
+                <b><?= esc($todo['task']) ?></b> - <?= esc($todo['description']) ?>
+                <a href="<?= site_url('todo/' . $todo['id'] . '/edit') ?>">Edit</a>
+                <form action="<?= site_url('todo/' . $todo['id']) ?>" method="post" style="display:inline">
                     <?= csrf_field() ?>
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit">Delete</button>
