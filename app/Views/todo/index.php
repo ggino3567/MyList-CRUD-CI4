@@ -12,12 +12,11 @@
         <?php foreach ($todos as $todo): ?>
             <li>
                 <b><?= esc($todo['task']) ?></b> - <?= esc($todo['description']) ?>
-                <a href="<?= site_url('todo/' . $todo['id'] . '/edit') ?>">Edit</a>
-                <form action="<?= site_url('todo/' . $todo['id']) ?>" method="post" style="display:inline">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit">Delete</button>
-                </form>
+                <!-- Edit -->
+                <a href="<?= site_url('todo/edit/' . $todo['id']) ?>">Edit</a>
+
+                <!-- Delete -->
+                <a href="<?= site_url('todo/delete/' . $todo['id']) ?>" onclick="return confirm('Are you sure?')">Delete</a>
             </li>
         <?php endforeach ?>
     </ul>

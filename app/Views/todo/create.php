@@ -1,7 +1,24 @@
-<h1>New Task</h1>
-<form method="post" action="<?= site_url('todo') ?>">
-    <?= csrf_field() ?>
-    <input type="text" name="task" placeholder="Task"><br>
-    <textarea name="description" placeholder="Description"></textarea><br>
-    <button type="submit">Save</button>
-</form>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Task</title>
+</head>
+
+<body>
+    <h1>Add Task</h1>
+    <form action="<?= site_url('todo/create') ?>" method="post">
+        <label>Task:</label><br>
+        <input type="text" name="task" required><br><br>
+
+        <label>Description:</label><br>
+        <textarea name="description"></textarea><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <br>
+    <a href="<?= site_url('todo') ?>">← Back to List</a>
+</body>
+
+</html>

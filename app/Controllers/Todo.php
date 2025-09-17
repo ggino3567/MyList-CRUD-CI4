@@ -2,64 +2,70 @@
 namespace App\Controllers;
 
 use App\Models\TodoModel;
-use CodeIgniter\RESTful\ResourceController;
 
-class Todo extends ResourceController
+class Todo extends BaseController
 {
-    protected $modelName = 'App\Models\TodoModel';
-    protected $format = 'html'; // 沒差，因為是return view()
-    // protected $format = 'json';
+    protected $model;
 
-    // 顯示全部
-    public function index()
+    public function __construct()
     {
-        $data['todos'] = $this->model->findAll();
-        return view('todo/index', $data);
+        $this->model = new TodoModel();
     }
 
-    // 顯示新增表單
+    public function index()
+    {
+        // $data['todos'] = $this->model->findAll();
+        // return view('todo/index', $data);
+
+        // 這個就是CI的方便之處ㄇ
+        return view('todo/index', [
+            'todos' => $this->model->findAll()
+        ]);
+    }
+
     public function new()
     {
         return view('todo/create');
     }
 
-    // 處理新增
     public function create()
     {
-        $this->model->insert([
-            'task' => $this->request->getPost('task'),
-            'description' => $this->request->getPost('description'),
-        ]);
-        return redirect()->to('/todo');
+        // $this->model->insert([
+        //     'task' => $this->request->getPost('task'),
+        //     'description' => $this->request->getPost('description'),
+        // ]);
+        $this->model->insert($this->request->getPost());
+        return redirect()->to('/');
     }
 
-    // 顯示編輯表單
-    public function edit($id = null)
+    public function edit($id)
     {
-        $data['todo'] = $this->model->find($id);
-        return view('todo/edit', $data);
-    }
-
-    // 處理更新
-    public function update($id = null)
-    {
-        $this->model->update($id, [
-            'task' => $this->request->getPost('task'),
-            'description' => $this->request->getPost('description'),
+        // $data['todo'] = $this->model->find($id);
+        return view('todo/edit', [
+            'todo' => $this->model->find($id)
         ]);
-        return redirect()->to('/todo');
     }
 
-    // 處理刪除
+    public function update($id)
+    {
+        // $this->model->update($id, [
+        //     'task' => $this->request->getPost('task'),
+        //     'description' => $this->request->getPost('description'),
+        // ]);
+
+        $this->model->update($id);
+        return redirect()->to('/');
+    }
+
     public function delete($id = null)
     {
         $this->model->delete($id);
-        return redirect()->to('/todo');
+        return redirect()->to('/');
     }
 
-    public function tryJson()
-    {
-        $this->response->setStatusCode(200);
-        return $this->response->setJSON(["msg" => "try json api"]);
-    }
+    // public function tryJson()
+    // {
+    //     $this->response->setStatusCode(200);
+    //     return $this->response->setJSON(["msg" => "try json api"]);
+    // }
 }
